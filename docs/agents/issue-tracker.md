@@ -10,6 +10,7 @@ Issues and PRDs for this repo live as GitHub issues. Use the `gh` CLI for all op
 - **Comment on an issue**: `gh issue comment <number> --body "..."`
 - **Apply / remove labels**: `gh issue edit <number> --add-label "..."` / `--remove-label "..."`
 - **Close**: `gh issue close <number> --comment "..."`
+- **Resolve (close a completed ticket)**: before closing, tick every satisfied acceptance criterion in the issue body (`[ ]` → `[x]`) via `gh issue edit <number> --body ...`, leave a verification comment with the evidence, then close. This also applies when a commit's `Closes #<n>` will auto-close the issue — tick the AC first, or immediately after the auto-close.
 
 Infer the repo from `git remote -v` — `gh` does this automatically when run inside a clone.
 
