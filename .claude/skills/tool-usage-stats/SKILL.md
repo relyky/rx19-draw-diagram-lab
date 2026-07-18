@@ -1,6 +1,7 @@
 ---
 name: tool-usage-stats
-description: 檢視並解讀本專案的 Claude Code 工具使用統計(由 PostToolUse hook 記錄於 .claude/tool-usage-stats.local.db)。只要使用者提到「檢視統計」「工具使用統計」「tool usage」「usage stats」「用了哪些工具」「工具使用次數」或想了解 session 的工具使用行為,就使用此 skill,即使沒有明講 skill 名稱。
+description: 檢視並解讀本專案的 Claude Code 工具使用統計(由 PostToolUse hook 記錄於 .claude/tool-usage-stats.local.db),整理成表格並附觀察重點。
+disable-model-invocation: true
 ---
 
 # Tool Usage Stats
