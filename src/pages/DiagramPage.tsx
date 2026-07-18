@@ -116,6 +116,7 @@ function DiagramPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [linkSourceId, setLinkSourceId] = useState<string | null>(null)
   const [mouse, setMouse] = useState<{ x: number; y: number } | null>(null)
+  const [viewSize, setViewSize] = useState({ w: VIEW_W, h: VIEW_H })
 
   const svgRef = useRef<SVGSVGElement>(null)
   const clickTimerRef = useRef<number | null>(null)
@@ -123,6 +124,20 @@ function DiagramPage() {
   const justLinkedRef = useRef(false)
 
   const { nodes, lines } = state
+
+  // viewBox 隨 svg 實際渲染尺寸調整(1 SVG 單位 = 1 CSS px,節點大小恆定)
+  useEffect(() => {
+    const svg = svgRef.current
+    if (!svg) return
+    const observer = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect
+      if (width > 0 && height > 0) {
+        setViewSize({ w: Math.round(width), h: Math.round(height) })
+      }
+    })
+    observer.observe(svg)
+    return () => observer.disconnect()
+  }, [])
 
   // 全域 1 秒 tick 結算所有移轉線
   useEffect(() => {
@@ -166,8 +181,8 @@ function DiagramPage() {
     const svg = svgRef.current!
     const rect = svg.getBoundingClientRect()
     return {
-      x: ((e.clientX - rect.left) / rect.width) * VIEW_W,
-      y: ((e.clientY - rect.top) / rect.height) * VIEW_H,
+      x: ((e.clientX - rect.left) / rect.width) * viewSize.w,
+      y: ((e.clientY - rect.top) / rect.height) * viewSize.h,
     }
   }
 
@@ -275,7 +290,7 @@ function DiagramPage() {
   const linkSource = linkSourceId ? nodeById.get(linkSourceId) : undefined
 
   return (
-    <section>
+    <section style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
       <h1>Diagram Lab</h1>
       <p>
         雙擊空白新增節點;單擊節點開始連線(Esc 取消);雙擊節點選取後可拖拉、按 Delete 刪除。
@@ -285,8 +300,17 @@ function DiagramPage() {
       </p>
       <svg
         ref={svgRef}
-        viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-        style={{ width: '100%', maxWidth: VIEW_W, touchAction: 'none', cursor: 'default' }}
+        viewBox={`0 0 ${viewSize.w} ${viewSize.h}`}
+        style={{
+          flex: 1,
+          width: '100%',
+          minHeight: 300,
+          border: '1px solid var(--accent-border)',
+          borderRadius: 8,
+          boxSizing: 'border-box',
+          touchAction: 'none',
+          cursor: 'default',
+        }}
         onClick={handleSvgClick}
         onDoubleClick={handleSvgDoubleClick}
         onPointerMove={handleSvgPointerMove}
