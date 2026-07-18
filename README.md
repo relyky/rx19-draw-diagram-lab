@@ -5,4 +5,4 @@
 - [ ] 組織 AI 工具
   - [v] codegraph
   - [v] matt-skills
-- [ ] 可自動部版到 GitHub
+- [v] 可自動部版到 GitHub Pages(https://relyky.github.io/rx19-draw-diagram-lab/)
