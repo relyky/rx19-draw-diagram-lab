@@ -18,7 +18,7 @@ disable-model-invocation: true
 
    需要自訂切面(如只看 Bash 細分、依 last_used_at 排序)時,用 Node 的 `node:sqlite` 直接下 SQL 查該 DB——不要假設環境有 sqlite3 CLI。
 
-2. 把輸出整理成 markdown 表格:欄位 tool / command / count,依 count 降冪;count 為 1 的長尾項可合併成一列「其他(各 1)」以免表格冗長。
+2. 把輸出整理成 markdown 表格:欄位 tool / command / count,依 count 降冪,**只列使用次數最多的前 10 筆**;第 11 筆起全部合併成最後一列「其他(N 項)」,count 填其餘各筆的加總。這樣讀者聚焦在主力工具,長尾不會淹沒表格。
 
 3. 表格後附 2–4 點觀察,幫使用者解讀而不只是轉述數字,例如:哪些是主力工具、異常偏高或偏低的用量、與近期工作型態(實作、驗證、issue 操作)的對應關係。
 
